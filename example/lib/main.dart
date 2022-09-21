@@ -76,12 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 20),
             SimpleFormattedText(
               _text,
-              style: TextStyle(color: Colors.green[900]),
+              linkTextStyle: TextStyle(color: Colors.green),
             ),
             const SizedBox(height: 20),
             SimpleFormattedText(
               _text,
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
             ),
           ],
         ),
