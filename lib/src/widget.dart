@@ -5,7 +5,8 @@ import 'package:simple_formatted_text/src/regexp_utils.dart';
 part 'enum.dart';
 
 class SimpleFormattedText extends StatelessWidget {
-  static const TextStyle _linkTextStyle = TextStyle(fontSize: 14, color: Color(0xFF1A73E8));
+  static const TextStyle _linkTextStyle =
+      TextStyle(fontSize: 14, color: Color(0xFF1A73E8));
 
   final String text;
   final TextStyle? style;
@@ -36,7 +37,12 @@ class SimpleFormattedText extends StatelessWidget {
   /// Shows:
   ///
   ///  "*This **text** contains _many_ ~special~ chars"
-  const SimpleFormattedText(this.text, {this.style, Key? key, this.textAlign, this.onLinkTap, TextStyle? linkTextStyle})
+  const SimpleFormattedText(this.text,
+      {this.style,
+      Key? key,
+      this.textAlign,
+      this.onLinkTap,
+      TextStyle? linkTextStyle})
       : linkTextStyle = linkTextStyle ?? _linkTextStyle,
         super(key: key);
 
@@ -57,33 +63,59 @@ class SimpleFormattedText extends StatelessWidget {
       if (SimpleFormattedTextCommands._chars.values.contains(c)) {
         // It's link
         if (c == SimpleFormattedTextCommands.startLinkTextChar.toString()) {
-          int k = str.indexOf(SimpleFormattedTextCommands.endLinkUrlChar.toString(), j);
+          int k = str.indexOf(
+              SimpleFormattedTextCommands.endLinkUrlChar.toString(), j);
           if (k > -1) {
             final String s = str.substring(j, k + 1);
             isLink = _isLink(s);
             if (isLink) {
-              final textToShow = RegExpUtils.getFirst(s, RegExpUtils.textBetweenBrackets).replaceAll(RegExpUtils.brackets, "");
-              final urlLink = RegExpUtils.getFirst(s, RegExpUtils.textBetweenParentheses).replaceAll(RegExpUtils.parentheses, "");
+              final textToShow =
+                  RegExpUtils.getFirst(s, RegExpUtils.textBetweenBrackets)
+                      .replaceAll(RegExpUtils.brackets, "");
+              final urlLink =
+                  RegExpUtils.getFirst(s, RegExpUtils.textBetweenParentheses)
+                      .replaceAll(RegExpUtils.parentheses, "");
               str = str.replaceFirst(s, "", j);
 
               // add last section styled
               final ss = str.substring(i, j);
-              if (ss.isNotEmpty) sections.add(TextSpan(text: ss, style: lastStyle));
+              if (ss.isNotEmpty)
+                sections.add(TextSpan(text: ss, style: lastStyle));
 
               i = j--;
-              if (SimpleFormattedTextCommands._strings.values.any((e) => urlLink.contains(e))) {
-                List<String> values = urlLink.split(SimpleFormattedTextCommands.strSplitter.toString());
+              if (SimpleFormattedTextCommands._strings.values
+                  .any((e) => urlLink.contains(e))) {
+                List<String> values = urlLink
+                    .split(SimpleFormattedTextCommands.strSplitter.toString());
                 TextStyle style = lastStyle.copyWith();
                 for (var value in values) {
                   value = value.trim();
-                  if (value.startsWith(SimpleFormattedTextCommands.colorStr.toString())) {
-                    final color = colorFromHexStr(value.replaceAll(SimpleFormattedTextCommands.colorStr.toString(), ""));
+                  if (value.startsWith(
+                      SimpleFormattedTextCommands.colorStr.toString())) {
+                    final color = colorFromHexStr(value.replaceAll(
+                        SimpleFormattedTextCommands.colorStr.toString(), ""));
                     style = style.copyWith(color: color);
-                  } else if (value.startsWith(SimpleFormattedTextCommands.addSizeStr.toString())) {
-                    final size = (style.fontSize ?? 14) + (double.tryParse(value.replaceAll(SimpleFormattedTextCommands.addSizeStr.toString(), "").trim()) ?? 0);
+                  } else if (value.startsWith(
+                      SimpleFormattedTextCommands.addSizeStr.toString())) {
+                    final size = (style.fontSize ?? 14) +
+                        (double.tryParse(value
+                                .replaceAll(
+                                    SimpleFormattedTextCommands.addSizeStr
+                                        .toString(),
+                                    "")
+                                .trim()) ??
+                            0);
                     style = style.copyWith(fontSize: size);
-                  } else if (value.startsWith(SimpleFormattedTextCommands.subSizeStr.toString())) {
-                    final size = (style.fontSize ?? 14) - (double.tryParse(value.replaceAll(SimpleFormattedTextCommands.subSizeStr.toString(), "").trim()) ?? 0);
+                  } else if (value.startsWith(
+                      SimpleFormattedTextCommands.subSizeStr.toString())) {
+                    final size = (style.fontSize ?? 14) -
+                        (double.tryParse(value
+                                .replaceAll(
+                                    SimpleFormattedTextCommands.subSizeStr
+                                        .toString(),
+                                    "")
+                                .trim()) ??
+                            0);
                     style = style.copyWith(fontSize: size);
                   }
                 }
@@ -99,7 +131,8 @@ class SimpleFormattedText extends StatelessWidget {
                     text: textToShow,
                     style: linkTextStyle.copyWith(fontSize: lastStyle.fontSize),
                     mouseCursor: SystemMouseCursors.click,
-                    recognizer: TapGestureRecognizer()..onTap = () => onLinkTap?.call(urlLink),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => onLinkTap?.call(urlLink),
                   ),
                 );
               }
@@ -116,10 +149,20 @@ class SimpleFormattedText extends StatelessWidget {
             }
 
             // set new style
-            bold = c == SimpleFormattedTextCommands.boldChar.toString() ? !bold : bold;
-            italic = c == SimpleFormattedTextCommands.italicChar.toString() ? !italic : italic;
-            underline = c == SimpleFormattedTextCommands.underlineChar.toString() ? !underline : underline;
-            lineThrough = c == SimpleFormattedTextCommands.lineThroughChar.toString() ? !lineThrough : lineThrough;
+            bold = c == SimpleFormattedTextCommands.boldChar.toString()
+                ? !bold
+                : bold;
+            italic = c == SimpleFormattedTextCommands.italicChar.toString()
+                ? !italic
+                : italic;
+            underline =
+                c == SimpleFormattedTextCommands.underlineChar.toString()
+                    ? !underline
+                    : underline;
+            lineThrough =
+                c == SimpleFormattedTextCommands.lineThroughChar.toString()
+                    ? !lineThrough
+                    : lineThrough;
 
             // set new start index and new style
             i = j + 1;
@@ -149,10 +192,13 @@ class SimpleFormattedText extends StatelessWidget {
     );
   }
 
-  bool _isLink(String text) => RegExpUtils.getFirst(text, RegExpUtils.markDownLink).isNotEmpty;
+  bool _isLink(String text) =>
+      RegExpUtils.getFirst(text, RegExpUtils.markDownLink).isNotEmpty;
 
   String replaceCharAt(String oldString, int index, String newChar) {
-    return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
+    return oldString.substring(0, index) +
+        newChar +
+        oldString.substring(index + 1);
   }
 
   static Color colorFromHexStr(String hexString) {

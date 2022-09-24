@@ -32,7 +32,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controller = TextEditingController();
-  String _text = "This is an *EXAMPLE* of a [big](addSize:4, color:#FFFF0000) ~[small](subSize:2)~ /_Widget_/";
+  String _text =
+      "This is an *EXAMPLE* of a [big](addSize:4, color:#FFFF0000) ~[small](subSize:2)~ /_Widget_/";
 
   @override
   void initState() {
@@ -64,10 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: TextField(
                       controller: _controller,
                       onSubmitted: (value) => _updateText(),
-                      decoration: const InputDecoration(label: Text("Insert your test text")),
+                      decoration: const InputDecoration(
+                          label: Text("Insert your test text")),
                     ),
                   ),
-                  IconButton(onPressed: _updateText, icon: const Icon(Icons.send)),
+                  IconButton(
+                      onPressed: _updateText, icon: const Icon(Icons.send)),
                 ],
               ),
             ),
